@@ -1,2 +1,2 @@
 # repository
-A Simple Repository Generator
+A Simple Repository Generator for Laravel App
