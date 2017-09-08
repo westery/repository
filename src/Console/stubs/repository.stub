@@ -1,0 +1,16 @@
+<?php
+
+namespace DummyNamespace;
+
+use Westery\Repository\BaseRepository;
+use DummyFullModelClass;
+
+
+class DummyClass extends BaseRepository
+{
+
+    public function __construct(DummyModelClass $model)
+    {
+        $this->model = $model;
+    }
+}

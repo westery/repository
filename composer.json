@@ -1,0 +1,13 @@
+{
+    "name": "westery/repository",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Westery",
+            "email": "xishanxiaoke@foxmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
