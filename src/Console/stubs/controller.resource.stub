@@ -1,0 +1,124 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyFullModelClass;
+use DummyFullRepositoryClass;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Westery\Repository\BaseController;
+
+/**
+ * Class DummyClass
+ * @package DummyNamespace
+ */
+class DummyClass extends BaseController
+{
+    /**
+     * @var DummyRepositoryClass
+     */
+    protected  $repository;
+
+    public function __construct(DummyRepositoryClass $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        $page = $this->repository->paginate(15);
+        return $this->responsePage($page);
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        //
+        $this->validate($request,
+            []);
+        $data = $request->input();
+        $result = $this->repository->create($data);
+        if($result instanceof DummyModelClass){
+            return $this->success('created successfully');
+        }else{
+            return $this->error('failed to create');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  $id integer
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($id)
+    {
+        $data = $this->repository->find($id);
+        if($data instanceof DummyModelClass){
+            return $this->success('loaded success',$data->toArray());
+        }else{
+            throw new NotFoundHttpException('failed to load');
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  integer $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function edit($id)
+    {
+        $data = $this->repository->find($id);
+        if($data instanceof DummyModelClass){
+            return $this->success('loaded success',$data->toArray());
+        }else{
+            throw new NotFoundHttpException('failed to load');
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param integer $id
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request,$id)
+    {
+        $this->validate($request,[]);
+        $data = $request->input();
+        $result = $this->repository->update($data,$id);
+        if($result){
+            return $this->success('updated success');
+        }else{
+            return $this->error('failed to updated');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  integer $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        $result = $this->repository->delete($id);
+        if($result){
+            return $this->success('delete success');
+        }else{
+            return $this->error('delete failed');
+        }
+    }
+
+}
