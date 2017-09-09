@@ -19,5 +19,5 @@
         "psr-4": {
             "Westery\\Repository\\":  "src/"
         }
-    },
+    }
 }
