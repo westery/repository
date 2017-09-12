@@ -71,6 +71,8 @@ class BaseController extends Controller
         $meta = new \stdClass();
         $meta->pagination = $page;
         $result['meta'] = $meta;
+        $result['status_code'] = 200;
+        $result['status'] = 200000;
         return response()->json($result);
     }
 
