@@ -25,6 +25,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         //
         $this->commands('Westery\Repository\Console\RepositoryMakeCommand');
+        $this->commands('Westery\Repository\Console\ResourceControllerMakeCommand');
 
     }
 }
