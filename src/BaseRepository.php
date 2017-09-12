@@ -22,9 +22,10 @@ class BaseRepository
      * 获取分页对象
      * @param null $limit
      * @param array $column
+     * @param array $params 用来过滤的参数
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate($limit = null, $column = ['*'])
+    public function paginate($limit = null, $column = ['*'], $params=[])
     {
         return $this->model->newQuery()->paginate($limit,$column);
     }
