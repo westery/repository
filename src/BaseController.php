@@ -65,6 +65,7 @@ class BaseController extends Controller
                 }
             }
         }
+        
         $result['data'] = $page['data'];
         unset($page['data']);
         $meta = new \stdClass();
