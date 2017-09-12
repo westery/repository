@@ -33,7 +33,7 @@ class BaseController extends Controller
      */
     public function success($message = 'success', $data = null, $meta = null)
     {
-        $result = ['message'=>__($message)];
+        $result = ['status_code'=>200,'status'=>200000,'message'=>__($message)];
         null === $meta || $result['meta'] = $meta;
         null === $data || $result['data'] = $data;
         return response()->json($result);
