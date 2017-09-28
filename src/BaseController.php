@@ -5,6 +5,7 @@ namespace Westery\Repository;
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Closure;
 
 /**
  * Westery基础控制模块
@@ -41,20 +42,30 @@ class BaseController extends Controller
 
     /**
      * 返回分页页面处理结果
-     * @param Paginator $page
+     * @param $page
      * @param array $jsoned
      * @param array $purified
+     * @param Closure/null $itemCallBack
      * @return \Illuminate\Http\JsonResponse
      */
-    public function responsePage($page,$jsoned=[],$purified=[])
+    public function responsePage($page,$jsoned=[],$purified=[],$itemCallBack=null)
     {
         $page = $page->toArray();
         $result = [];
+        if($itemCallBack instanceof Closure){
+            if(!empty($page['data'])){
+                foreach ($page['data'] as $k => $item){
+                    $page['data'][$k] = $itemCallBack($item);
+                }
+            }
+        }
+
         if(!empty($jsoned) && !empty($page['data'])){
             foreach ($page['data'] as $k => $item){
                 foreach ($jsoned as $jsoned_item){
                     $page['data'][$k][$jsoned_item] = json_decode($item[$jsoned_item]);
                 }
+
             }
         }
         if(!empty($purified) && !empty($page['data'])){
@@ -63,6 +74,16 @@ class BaseController extends Controller
                     $str = str_replace(['&nbsp;',' ',"\r\n", "\t","\r", "\n"],'',strip_tags($item[$purify]));
                     $page['data'][$k][$purify] = mb_substr($str,0,80);
                 }
+            }
+        }
+
+
+        //添加序号
+        if(!empty($page['data'])){
+            $i = 0;
+            foreach ($page['data'] as $k => $item){
+                $page['data'][$k]['index'] = $page['from'] + $i;
+                $i++;
             }
         }
         $result['data'] = $page['data'];
